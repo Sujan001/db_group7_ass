@@ -6,6 +6,27 @@
 ?>
 
 <body>
+  <?php 
+                session_start();
+               if(!isset($_SESSION['session_login_id'])){
+                        header('location:login.php');
+               }
+
+               $pdo = new PDO('mysql:host=localhost;dbname=group7_db','root','');
+               if(isset($_SESSION['session_login_id'])){
+                    $stmt = $pdo->prepare("SELECT * FROM user_login WHERE user_id = :login_id");
+                    $criteria = [
+                    'login_id' => $_SESSION['session_login_id']    
+                     ];
+                $stmt->execute($criteria);
+                $take = $stmt->fetch();
+                $call_name=$take['user_name'];
+                $call_id=$take['user_un_id'];
+                $call_review=$take['user_academic_review'];
+                $call_conduct=$take['user_class_conduct'];
+                $call_image=$take['profile_image'];
+}
+  ?>
 
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:185px;margin-top:43px;">
@@ -18,6 +39,13 @@
   <div class="w3-row-padding w3-margin-bottom">
     <div class="w3-quarter" style="float: left; width:25%;">
       <div class="w3-container w3-red w3-padding-16">
+        <div>
+
+          <?php
+            // echo '<img src="'.$call_image.'"/>';
+           echo '<img src=""/>';
+          ?>
+        </div>
         <div class="w3-left"><i class="fa fa-fw fa-user" style="font-size: 3em;"></i></div>
         <div class="w3-right">
           <h3>12</h3> <!-- notification numbers -->
@@ -28,13 +56,31 @@
     </div>
     <div style="float: right; width:75%;">
       <div style="float:left;">
-      <p>Name: Ayush Bhusal</p>
-      <p>UN-ID: 17439840</p>
+      <p>
+        Name: 
+        <?php
+         echo $call_name;
+        ?>
+
+      </p>
+      <p>UN-ID: 
+        <?php
+         echo $call_id;
+        ?>
+      </p>
     </div>
     <div style="float:right;">
-      <p>Academic Review: Good</p>
-      <p style="margin-right:210px;">Class Conduct: 90%</p>
-      <p style="margin-left:165px;"><a href="#">View Profile</a></p>
+      <p>Academic Review: 
+         <?php
+         echo $call_review;
+        ?>
+      </p>
+      <p style="margin-right:210px;">Class Conduct:  
+        <?php
+         echo $call_conduct;
+        ?>
+      %</p>
+     <!--  <p style="margin-left:165px;"><a href="#">View Profile</a></p> -->
     </div>    
     </div>   
   </div>
