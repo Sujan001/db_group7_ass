@@ -13,7 +13,8 @@
                }
 
                $pdo = new PDO('mysql:host=localhost;dbname=group7_db','root','');
-               if(isset($_SESSION['session_login_id'])){
+               if(isset($_SESSION['session_login_id']))
+               {
                     $stmt = $pdo->prepare("SELECT * FROM user_login WHERE user_id = :login_id");
                     $criteria = [
                     'login_id' => $_SESSION['session_login_id']    
@@ -25,7 +26,60 @@
                 $call_review=$take['user_academic_review'];
                 $call_conduct=$take['user_class_conduct'];
                 $call_image=$take['profile_image'];
-}
+
+               
+                $stmt = $pdo->prepare("SELECT * FROM module_detail WHERE (user_id = :login_id AND module_id = '1' )");
+                    $criteria = [
+                    'login_id' => $_SESSION['session_login_id']    
+                     ];
+                $stmt->execute($criteria);
+                $take = $stmt->fetch();
+                $call_result1=$take['result'];
+
+                $stmt = $pdo->prepare("SELECT * FROM module_detail WHERE (user_id = :login_id AND module_id = '2' )");
+                    $criteria = [
+                    'login_id' => $_SESSION['session_login_id']    
+                     ];
+                $stmt->execute($criteria);
+                $take = $stmt->fetch();
+                $call_result2=$take['result'];
+
+                $stmt = $pdo->prepare("SELECT * FROM module_detail WHERE (user_id = :login_id AND module_id = '3' )");
+                    $criteria = [
+                    'login_id' => $_SESSION['session_login_id']    
+                     ];
+                $stmt->execute($criteria);
+                $take = $stmt->fetch();
+                $call_result3=$take['result'];
+
+                $stmt = $pdo->prepare("SELECT * FROM module_detail WHERE (user_id = :login_id AND module_id = '4' )");
+                    $criteria = [
+                    'login_id' => $_SESSION['session_login_id']    
+                     ];
+                $stmt->execute($criteria);
+                $take = $stmt->fetch();
+                $call_result4=$take['result'];
+
+                $stmt = $pdo->prepare("SELECT * FROM module_detail WHERE (user_id = :login_id AND module_id = '5' )");
+                    $criteria = [
+                    'login_id' => $_SESSION['session_login_id']    
+                     ];
+                $stmt->execute($criteria);
+                $take = $stmt->fetch();
+                $call_result5=$take['result'];
+
+                $stmt = $pdo->prepare("SELECT * FROM module_detail WHERE (user_id = :login_id AND module_id = '6' )");
+                    $criteria = [
+                    'login_id' => $_SESSION['session_login_id']    
+                     ];
+                $stmt->execute($criteria);
+                $take = $stmt->fetch();
+                $call_result6=$take['result'];
+                //   foreach($stmt as $row)
+                //   { 
+                // $call_result=$row['result'];
+                //   }
+                }
   ?>
 
 <!-- !PAGE CONTENT! -->
@@ -147,37 +201,61 @@
             <td>CSY2028</td>
             <td>Web Programming</td>
             <td><a href="#">view</a></td>
-            <td>&#9670; 90%</td>
+            <td>&#9670; 
+                         <?php
+         echo $call_result1;
+        ?>
+            %</td>
           </tr>
           <tr>
             <td>CSY2027</td>
             <td>Group Project</td>
             <td><a href="#">view</a></td>
-            <td>&#9670; 80%</td>
+            <td>&#9670; 
+                         <?php
+         echo $call_result2;
+        ?>
+            %</td>
           </tr>
           <tr>
             <td>CSY2006</td>
             <td>Software Engineering 2</td>
             <td><a href="#">view</a></td>
-            <td>&#9670; 75%</td>
+            <td>&#9670; 
+                                  <?php
+         echo $call_result3;
+        ?>
+            %</td>
           </tr>
           <tr>
             <td>CSY2030</td>
             <td>Systems Design and Development</td>
             <td><a href="#">view</a></td>
-            <td>&#9670; 20%</td>
+            <td>&#9670; 
+                                  <?php
+         echo $call_result4;
+        ?>
+            %</td>
           </tr>
           <tr>
             <td>CSY2038</td>
             <td>Databases 2</td>
             <td><a href="#">view</a></td>
-            <td>&#9670; 38%</td>
+            <td>&#9670; 
+                                  <?php
+         echo $call_result5;
+        ?>
+            %</td>
           </tr>
           <tr>
             <td>CSY2008</td>
             <td>Fromal Specifications of System Software</td>
             <td><a href="#">view</a></td>
-            <td>&#9670; 70%</td>
+            <td>&#9670; 
+                                  <?php
+         echo $call_result6;
+        ?>
+            %</td>
           </tr>
         </table>
       </div>
