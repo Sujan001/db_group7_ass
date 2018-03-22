@@ -2,27 +2,35 @@
 <html>
 
 <?php
-require 'session.php';
  require 'header.php';
 ?>
 
 <body>
-  <?php
+  <?php 
+                session_start();
+               if(!isset($_SESSION['session_login_id'])){
+                        header('location:login.php');
+               }
 
                $pdo = new PDO('mysql:host=localhost;dbname=group7_db','root','');
                if(isset($_SESSION['session_login_id']))
                {
-                 echo 'hi';
-                $call_name=$_SESSION['user_name'];
-                $call_id=$_SESSION['user_un_id'];
-                $call_review=$_SESSION['user_academic_review'];
-                $call_conduct=$_SESSION['user_class_conduct'];
-                $call_image=$_SESSION['profile_image'];
+                    $stmt = $pdo->prepare("SELECT * FROM user_login WHERE user_id = :login_id");
+                    $criteria = [
+                    'login_id' => $_SESSION['session_login_id']    
+                     ];
+                $stmt->execute($criteria);
+                $take = $stmt->fetch();
+                $call_name=$take['user_name'];
+                $call_id=$take['user_un_id'];
+                $call_review=$take['user_academic_review'];
+                $call_conduct=$take['user_class_conduct'];
+                $call_image=$take['profile_image'];
 
-
+               
                 $stmt = $pdo->prepare("SELECT * FROM module_detail WHERE (user_id = :login_id AND module_id = '1' )");
                     $criteria = [
-                    'login_id' => $_SESSION['session_login_id']
+                    'login_id' => $_SESSION['session_login_id']    
                      ];
                 $stmt->execute($criteria);
                 $take = $stmt->fetch();
@@ -30,7 +38,7 @@ require 'session.php';
 
                 $stmt = $pdo->prepare("SELECT * FROM module_detail WHERE (user_id = :login_id AND module_id = '2' )");
                     $criteria = [
-                    'login_id' => $_SESSION['session_login_id']
+                    'login_id' => $_SESSION['session_login_id']    
                      ];
                 $stmt->execute($criteria);
                 $take = $stmt->fetch();
@@ -38,7 +46,7 @@ require 'session.php';
 
                 $stmt = $pdo->prepare("SELECT * FROM module_detail WHERE (user_id = :login_id AND module_id = '3' )");
                     $criteria = [
-                    'login_id' => $_SESSION['session_login_id']
+                    'login_id' => $_SESSION['session_login_id']    
                      ];
                 $stmt->execute($criteria);
                 $take = $stmt->fetch();
@@ -46,7 +54,7 @@ require 'session.php';
 
                 $stmt = $pdo->prepare("SELECT * FROM module_detail WHERE (user_id = :login_id AND module_id = '4' )");
                     $criteria = [
-                    'login_id' => $_SESSION['session_login_id']
+                    'login_id' => $_SESSION['session_login_id']    
                      ];
                 $stmt->execute($criteria);
                 $take = $stmt->fetch();
@@ -54,7 +62,7 @@ require 'session.php';
 
                 $stmt = $pdo->prepare("SELECT * FROM module_detail WHERE (user_id = :login_id AND module_id = '5' )");
                     $criteria = [
-                    'login_id' => $_SESSION['session_login_id']
+                    'login_id' => $_SESSION['session_login_id']    
                      ];
                 $stmt->execute($criteria);
                 $take = $stmt->fetch();
@@ -62,13 +70,13 @@ require 'session.php';
 
                 $stmt = $pdo->prepare("SELECT * FROM module_detail WHERE (user_id = :login_id AND module_id = '6' )");
                     $criteria = [
-                    'login_id' => $_SESSION['session_login_id']
+                    'login_id' => $_SESSION['session_login_id']    
                      ];
                 $stmt->execute($criteria);
                 $take = $stmt->fetch();
                 $call_result6=$take['result'];
                 //   foreach($stmt as $row)
-                //   {
+                //   { 
                 // $call_result=$row['result'];
                 //   }
                 }
@@ -103,43 +111,57 @@ require 'session.php';
     <div style="float: right; width:75%;">
       <div style="float:left;">
       <p>
-        Name:
+        Name: 
         <?php
          echo $call_name;
         ?>
 
       </p>
-      <p>UN-ID:
+      <p>UN-ID: 
         <?php
          echo $call_id;
         ?>
       </p>
     </div>
     <div style="float:right;">
-      <p>Academic Review:
+      <p>Academic Review: 
          <?php
          echo $call_review;
         ?>
       </p>
-      <p style="margin-right:210px;">Class Conduct:
+      <p style="margin-right:210px;">Class Conduct:  
         <?php
          echo $call_conduct;
         ?>
       %</p>
      <!--  <p style="margin-left:165px;"><a href="#">View Profile</a></p> -->
-    </div>
-    </div>
+    </div>    
+    </div>   
   </div>
 
   <div class="w3-panel">
     <div class="w3-row-padding" style="margin:0 -16px">
-      <!-- <div class="w3-third">
-        <h5>Regions</h5>
-        <img src="/w3images/region.jpg" style="width:100%" alt="Google Regional Map">
-      </div> -->
       <div class="w3-twothird">
         <h5>Grades And Assignments<hr></h5>
-        <table class="w3-table w3-striped w3-white">
+
+
+        
+        <!--  // $stmt = $pdo->prepare("SELECT * FROM module_detail WHERE (user_id = :login_id AND module_id = '6' )");
+         //            $criteria = [
+         //            'login_id' => $_SESSION['session_login_id']    
+         //             ];
+         //        $stmt->execute($criteria);
+         //        $take = $stmt->fetch();
+         //        $call_result6=$take['result'];
+                
+                  // foreach($take as $row)
+                  // { 
+
+                // $call_result=$row['result'];
+                
+        // echo ' -->
+          
+          <table class="w3-table w3-striped w3-white">
           <tr>
             <th>Subject Code</th>
             <th>Subject</th>
@@ -151,7 +173,7 @@ require 'session.php';
             <td>Web Programming</td>
             <td><a href="#">view</a></td>
             <td>&#9670;
-                         <?php
+             <?php
          echo $call_result1;
         ?>
             %</td>
@@ -160,8 +182,8 @@ require 'session.php';
             <td>CSY2027</td>
             <td>Group Project</td>
             <td><a href="#">view</a></td>
-            <td>&#9670;
-                         <?php
+            <td>&#9670; 
+              <?php
          echo $call_result2;
         ?>
             %</td>
@@ -170,8 +192,8 @@ require 'session.php';
             <td>CSY2006</td>
             <td>Software Engineering 2</td>
             <td><a href="#">view</a></td>
-            <td>&#9670;
-                                  <?php
+            <td>&#9670; 
+               <?php
          echo $call_result3;
         ?>
             %</td>
@@ -180,8 +202,8 @@ require 'session.php';
             <td>CSY2030</td>
             <td>Systems Design and Development</td>
             <td><a href="#">view</a></td>
-            <td>&#9670;
-                                  <?php
+            <td>&#9670; 
+                <?php
          echo $call_result4;
         ?>
             %</td>
@@ -190,8 +212,8 @@ require 'session.php';
             <td>CSY2038</td>
             <td>Databases 2</td>
             <td><a href="#">view</a></td>
-            <td>&#9670;
-                                  <?php
+            <td>&#9670; 
+               <?php
          echo $call_result5;
         ?>
             %</td>
@@ -200,17 +222,21 @@ require 'session.php';
             <td>CSY2008</td>
             <td>Fromal Specifications of System Software</td>
             <td><a href="#">view</a></td>
-            <td>&#9670;
-                                  <?php
+            <td>&#9670; 
+               <?php
          echo $call_result6;
         ?>
             %</td>
           </tr>
         </table>
+       <!--   '; -->
+<!-- } -->
+      
+
       </div>
     </div>
   </div>
-
+  
   <div style="margin-left: 35px; height:250px;">
     <h5>University Announcements<hr></h5>
     <div class="w3-quarter">
@@ -258,9 +284,9 @@ require 'session.php';
 
 <!--The right side div with calender-->
 <div class="right-bar" style="width:25%;float:right;height:100%;background-color:#009688;position: fixed;z-index: 1;margin-left:828px;">
-
+  
 <center style="margin-top: 20px;">
-
+  
 <script language="javascript" type="text/javascript">
 var day_of_week = new Array('Su','Mo','Tu','We','Th','Fr','Sa');
 var month_of_year = new Array('January','February','March','April','May','June','July','August','September','October','November','December');
@@ -376,19 +402,19 @@ document.write(cal);
   <div style="max-height:200px;max-width: 310px;background-color: #2196F3;border: 1px solid black">
     <p>Database</p>
     <p>PSP Review</p>
-    <p>SE2 Classes</p>
+    <p>SE2 Classes</p>  
   </div>
 </center>
 <center style="margin-top: 50px;">
   <h5>Wednesday</h5>
   <div style="max-height:200px;max-width: 310px;background-color: #2196F3;border: 1px solid black">
     <p>SE2 Mock-Tests</p>
-    <p>PSp Review</p>
+    <p>PSp Review</p>  
   </div>
 </center>
 
 
-</div> <!-- main div -->
+</div> <!-- main div --> 
 
 <script>
 // Get the Sidebar
