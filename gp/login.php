@@ -4,7 +4,7 @@
 	<title>Login V1</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--===============================================================================================-->	
+	<!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/w3.css">
@@ -14,21 +14,29 @@
 <body>
 
 	 <?php
-               session_start();
+	 require 'session.php';
+							 session_unset();
                if(isset($_SESSION['session_login_id'])){
                         header('location:index.php');
                }
                $pdo = new PDO('mysql:host=localhost;dbname=group7_db','root','');
                if(isset($_POST['login_form'])){
+								 echo 'hi';
                     $stmt = $pdo->prepare("SELECT * FROM user_login WHERE user_email = :email");
                     $criteria = [
-                    'email' => $_POST['email']    
+                    'email' => $_POST['email']
                      ];
                 $stmt->execute($criteria);
                 $check_availability = true;
                if($stmt -> rowCount() > 0){
                      $store = $stmt->fetch();
                      if(sha1($_POST['password'])==$store['user_psw']){ //sha1 encryption method used
+											 $_SESSION['session_login_id'] = $store['user_id'];
+											 $_SESSION['user_name']=$store['user_name'];
+			                 $_SESSION['user_un_id']=$store['user_un_id'];
+			                 $_SESSION['user_academic_review']=$store['user_academic_review'];
+			                 $_SESSION['user_class_conduct']=$store['user_class_conduct'];
+			                 $_SESSION['profile_image']=$store['profile_image'];
                      	 header('location:index.php');
                      }
                      // if(password_verify($_POST['password'],$store['user_psw'])){
@@ -54,10 +62,10 @@
 			<img src="images/2.jpg" alt="The left side image" style="width: 868px;height: 692px;" />
 		</div>
 		<div id="" class="container-login100" style="float:right; width: 20%;">
-			<div class="wrap-login100">	
+			<div class="wrap-login100">
 				<div id="signup" class="hold input-box">
 					<h style="font-size: 2.5em;" class="login100-form-title">
-					Welcome Magloo! 
+					Welcome Magloo!
 						</h>
 					<form class="login100-form validate-form" method="post" action="">
 
